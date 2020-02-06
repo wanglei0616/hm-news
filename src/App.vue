@@ -4,12 +4,9 @@
     <router-view></router-view>
   </div>
 </template>
-
+<script>
+export default {
+}
+</script>
 <style lang="scss">
-  .demo{
-    font-size: 14px;
-    width: 100px;
-    height: 100px;
-    background-color: aqua
-  }
 </style>

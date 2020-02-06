@@ -12,29 +12,28 @@
     <div class="password">
       <hm-input placeholder="请输入密码" v-model="password" :rules="/^\d{3,12}$/" err-msg="输入的密码格式有误"></hm-input>
     </div>
-    <div class="btn">
+    <div class="login-btn">
         <hm-button @click="login">登录</hm-button>
     </div>
-    <!-- <van-button type="danger" round size="large">登录</van-button> -->
+    <div class="go-register">
+      没有账号？立即<router-link to="/register">注册</router-link>
+    </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
-import HmInput from '../components/HmInput'
-import HmButton from '../components/HmButton'
-
 export default {
-  components: {
-    // 'hm-input': HmInput
-    HmInput,
-    HmButton
-  },
   data () {
     return {
       username: 'root',
       password: '123'
     }
+  },
+  created () {
+    // console.log(this.$route)
+    const { username, password } = this.$route.params
+    this.username = username
+    this.password = password
   },
   methods: {
     async login () {
@@ -48,15 +47,17 @@ export default {
       //     password: this.password
       //   }
       // })
-      const res = await axios.post('http://localhost:3000/login', {
+      const res = await this.$axios.post('http://localhost:3000/login', {
         username: this.username,
         password: this.password
       })
       console.log(res)
       if (res.data.statusCode === 401) {
-        alert('用户名或密码错误')
+        // alert('用户名或密码错误')
+        this.$toast.fail('用户名或密码错误')
       } else {
-        alert('登录成功')
+        this.$toast.success('登陆成功')
+        // alert('登录成功')
         // $route.pust('/login')
       }
     }
@@ -79,8 +80,15 @@ export default {
       color: #d81e06;
     }
   }
-  .btn{
+  .login-btn{
     margin-top: 20px;
+  }
+  .go-register{
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+    font-size: 18px;
   }
 }
 </style>
